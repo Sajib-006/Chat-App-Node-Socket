@@ -10,6 +10,10 @@ io.on("connection", (socket) => {
   });
   socket.on("from-client", (msg) => {
     //console.log(msg);
-    socket.broadcast.emit("chat-message", msg);
+    socket.broadcast.emit("chat-message", { msg: msg, name: users[socket.id] });
+  });
+  socket.on("disconnect", (name) => {
+    socket.broadcast.emit("user-exited", users[socket.id]);
+    delete users[socket.id];
   });
 });

@@ -13,15 +13,23 @@ socket.on("user-connected", (name) => {
   appendMessage(name + " conneted");
 });
 
+socket.on("user-exited", (name) => {
+  //var foo = "bar";
+  //console.log(`Let's meet at the ${foo}`);
+  appendMessage(name + " left");
+});
+
 socket.on("chat-message", (data) => {
   //console.log(data);
-  appendMessage(data);
+  appendMessage(data.name + ": " + data.msg);
+  //appendMessage("${data.name}: ${data.msg}");
 });
 
 messageForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const msg = messageInput.value;
-  console.log(msg);
+  //console.log(msg);
+  appendMessage("You: " + msg);
   socket.emit("from-client", msg);
   messageInput.value = "";
 });
